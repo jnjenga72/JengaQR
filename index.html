@@ -41,10 +41,26 @@
             z-index: 10;
         }
         h1 { margin: 0; font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; }
+        
         .logo-svg {
-            width: 32px;
-            height: 32px;
-            fill: var(--primary-color);
+            width: 36px;
+            height: 36px;
+            color: var(--primary-color);
+        }
+        .logo-block {
+            animation: logo-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            opacity: 0;
+            transform: translateY(5px);
+        }
+        .logo-block:nth-child(2) { animation-delay: 0.1s; }
+        .logo-block:nth-child(3) { animation-delay: 0.2s; }
+        .logo-block:nth-child(4) { animation-delay: 0.3s; }
+
+        @keyframes logo-pop {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         main {
             flex: 1;
@@ -167,10 +183,11 @@
 </head>
 <body>
     <header>
-        <svg class="logo-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <rect x="4" y="16" width="16" height="4" rx="1" />
-            <rect x="6" y="10" width="12" height="4" rx="1" opacity="0.8" />
-            <rect x="8" y="4" width="8" height="4" rx="1" opacity="0.6" />
+        <svg class="logo-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="logo-block" d="M3 7C3 4.79086 4.79086 3 7 3H17C19.2091 3 21 4.79086 21 7V17C21 19.2091 19.2091 21 17 21H7C4.79086 21 3 19.2091 3 17V7Z" stroke="currentColor" stroke-width="2"/>
+            <rect class="logo-block" x="6" y="15" width="12" height="3" rx="1" fill="currentColor"/>
+            <rect class="logo-block" x="8" y="10.5" width="12" height="3" rx="1" fill="currentColor" fill-opacity="0.8"/>
+            <rect class="logo-block" x="4" y="6" width="12" height="3" rx="1" fill="currentColor" fill-opacity="0.5"/>
         </svg>
         <h1 id="app-title">Jenga QR</h1>
     </header>
@@ -363,7 +380,10 @@
                 qrbox: qrboxFunction,
                 aspectRatio: 1.0,
                 rememberLastUsedCamera: true,
-                showTorchButtonIfSupported: true
+                showTorchButtonIfSupported: true,
+                videoConstraints: {
+                    facingMode: "environment"
+                }
             },
             /* verbose= */ false); // Setting verbose to false ensures the scanner attempts to start automatically without a "Start Scanning" button.
         html5QrcodeScanner.render(onScanSuccess, onScanFailure);
